@@ -17,9 +17,7 @@ class TicketStatusSeeder extends Seeder
     {
         TicketStatus::insert([
             ['title' => 'New'],
-            ['title' => 'Assigned'],
             ['title' => 'In progress'],
-            ['title' => 'Pending'],
             ['title' => 'Resolved'],
         ]);
     }
