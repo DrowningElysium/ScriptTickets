@@ -28,21 +28,17 @@ export const useAuthStore = defineStore("auth", () => {
         telephone_number: string,
         password: string
     ) => {
-        try {
-            const response = await Axios.post("register", {
-                first_name: first_name,
-                last_name: last_name,
-                email: email,
-                telephone_number: telephone_number,
-                password: password,
-            });
+        const response = await Axios.post("register", {
+            first_name: first_name,
+            last_name: last_name,
+            email: email,
+            telephone_number: telephone_number,
+            password: password,
+        });
 
-            user.value = response.data.user;
+        user.value = response.data.user;
 
-            Router.push({ name: "home" });
-        } catch (error) {
-            //
-        }
+        Router.push({ name: "home" });
     };
 
     const login = async (
@@ -50,33 +46,25 @@ export const useAuthStore = defineStore("auth", () => {
         password: string,
         remember: boolean
     ) => {
-        try {
-            const response = await Axios.post("login", {
-                email: email,
-                password: password,
-                remember_me: remember,
-            });
+        const response = await Axios.post("login", {
+            email: email,
+            password: password,
+            remember_me: remember,
+        });
 
-            user.value = response.data.user;
+        user.value = response.data.user;
 
-            Router.push(returnUrl.value || { name: "home" });
-        } catch (error) {
-            //
-        }
+        Router.push(returnUrl.value || { name: "home" });
     };
 
     const sendReset = async (email: string) => {
-        try {
-            const response = await Axios.post("/forgot-password", {
-                email: email,
-            });
+        const response = await Axios.post("/forgot-password", {
+            email: email,
+        });
 
-            alert(response.data.status);
+        alert(response.data.status);
 
-            Router.push({ name: "home" });
-        } catch (error) {
-            //
-        }
+        Router.push({ name: "home" });
     };
 
     const resetPassword = async (
@@ -84,19 +72,15 @@ export const useAuthStore = defineStore("auth", () => {
         email: string,
         password: string
     ) => {
-        try {
-            const response = await Axios.post("/reset-password", {
-                token: token,
-                email: email,
-                password: password,
-            });
+        const response = await Axios.post("/reset-password", {
+            token: token,
+            email: email,
+            password: password,
+        });
 
-            alert(response.data.status);
+        alert(response.data.status);
 
-            Router.push({ name: "login" });
-        } catch (error) {
-            //
-        }
+        Router.push({ name: "login" });
     };
 
     const logout = async () => {
