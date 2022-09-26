@@ -12,13 +12,13 @@ export const useAuthStore = defineStore("auth", () => {
     const isAuthenticated = computed(() => user.value);
     const gravatar = computed(() => {
         if (!user.value) {
-            return "http://www.gravatar.com/avatar";
+            return "https://www.gravatar.com/avatar";
         }
 
         const email = user.value.email.trim().toLowerCase();
         const hash = md5(email);
 
-        return "http://www.gravatar.com/avatar/" + hash;
+        return "https://www.gravatar.com/avatar/" + hash;
     });
 
     const register = async (
@@ -28,17 +28,21 @@ export const useAuthStore = defineStore("auth", () => {
         telephone_number: string,
         password: string
     ) => {
-        const response = await Axios.post("register", {
-            first_name: first_name,
-            last_name: last_name,
-            email: email,
-            telephone_number: telephone_number,
-            password: password,
-        });
+        try {
+            const response = await Axios.post("register", {
+                first_name: first_name,
+                last_name: last_name,
+                email: email,
+                telephone_number: telephone_number,
+                password: password,
+            });
 
-        user.value = response.data.user;
+            user.value = response.data.user;
 
-        Router.push({ name: "home" });
+            await Router.push({ name: "home" });
+        } catch (error) {
+            //
+        }
     };
 
     const login = async (
@@ -46,25 +50,33 @@ export const useAuthStore = defineStore("auth", () => {
         password: string,
         remember: boolean
     ) => {
-        const response = await Axios.post("login", {
-            email: email,
-            password: password,
-            remember_me: remember,
-        });
+        try {
+            const response = await Axios.post("login", {
+                email: email,
+                password: password,
+                remember_me: remember,
+            });
 
-        user.value = response.data.user;
+            user.value = response.data.user;
 
-        Router.push(returnUrl.value || { name: "home" });
+            await Router.push(returnUrl.value || { name: "home" });
+        } catch (error) {
+            //
+        }
     };
 
     const sendReset = async (email: string) => {
-        const response = await Axios.post("/forgot-password", {
-            email: email,
-        });
+        try {
+            const response = await Axios.post("/forgot-password", {
+                email: email,
+            });
 
-        alert(response.data.status);
+            alert(response.data.status);
 
-        Router.push({ name: "home" });
+            await Router.push({ name: "home" });
+        } catch (error) {
+            //
+        }
     };
 
     const resetPassword = async (
@@ -72,23 +84,26 @@ export const useAuthStore = defineStore("auth", () => {
         email: string,
         password: string
     ) => {
-        const response = await Axios.post("/reset-password", {
-            token: token,
-            email: email,
-            password: password,
-        });
+        try {
+            const response = await Axios.post("/reset-password", {
+                token: token,
+                email: email,
+                password: password,
+            });
 
-        alert(response.data.status);
+            alert(response.data.status);
 
-        Router.push({ name: "login" });
+            await Router.push({ name: "login" });
+        } catch (error) {
+            //
+        }
     };
 
     const logout = async () => {
         user.value = null;
-        // Don't think we need to wait for this.
-        Axios.post("/logout");
 
-        Router.push({ name: "login" });
+        await Axios.post("/logout");
+        await Router.push({ name: "login" });
     };
 
     return {

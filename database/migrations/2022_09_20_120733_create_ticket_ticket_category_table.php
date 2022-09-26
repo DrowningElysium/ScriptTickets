@@ -11,9 +11,9 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('ticket_ticket_category', function (Blueprint $table) {
+        Schema::create('ticket_ticket_category', static function (Blueprint $table) {
             $table->foreignIdFor(\App\Models\Ticket::class, 'ticket_id');
             $table->foreignIdFor(\App\Models\TicketCategory::class, 'category_id');
 
@@ -26,7 +26,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('ticket_ticket_category');
     }

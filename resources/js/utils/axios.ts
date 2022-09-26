@@ -26,7 +26,7 @@ ax.interceptors.response.use(undefined, (error) => {
     if (axios.isAxiosError(error) && error.response) {
         alert((error.response.data as ErrorResponse).message); // Will be replaced with a better solution.
 
-        return Promise.resolve();
+        return Promise.reject(error);
     }
 });
 

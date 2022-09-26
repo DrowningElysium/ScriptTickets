@@ -23,21 +23,23 @@ class TicketSeeder extends Seeder
         $admin = User::where('is_admin', true)->first();
         $user = User::where('is_admin', false)->first();
         $newStatus = TicketStatus::where('title', 'New')->first();
+        $inProgressStatus = TicketStatus::where('title', 'In progress')->first();
 
         $ticket1 = Ticket::factory()
             ->hasAttached($categories->shuffle()->take(3), [], 'categories')
             ->has(TicketResponse::factory()->count(random_int(1, 5)), 'responses')
             ->create([
+                'assigned_to_id' => $admin->id, // admin@example.com
                 'author_id' => $user->id, // user@example.com
-                'status_id' => $newStatus->id, // new
+                'status_id' => $inProgressStatus->id, // In Progress
             ]);
-            
-        $ticket1 = Ticket::factory()
+
+        $ticket2 = Ticket::factory()
             ->hasAttached($categories->shuffle()->take(3), [], 'categories')
             ->has(TicketResponse::factory()->count(random_int(1, 5)), 'responses')
             ->create([
                 'author_id' => $user->id, // user@example.com
-                'status_id' => $newStatus->id, // new
+                'status_id' => $newStatus->id, // New
             ]);
     }
 }

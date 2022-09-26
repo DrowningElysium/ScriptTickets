@@ -11,10 +11,11 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('tickets', function (Blueprint $table) {
+        Schema::create('tickets', static function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(\App\Models\User::class, 'assigned_to_id')->nullable();
             $table->foreignIdFor(\App\Models\User::class, 'author_id');
             $table->foreignIdFor(\App\Models\TicketStatus::class, 'status_id');
             $table->string('title');
@@ -28,7 +29,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('tickets');
     }

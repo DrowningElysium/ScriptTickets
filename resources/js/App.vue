@@ -63,11 +63,11 @@ const logout = () => {
                         </li>
                         <li class="nav-item">
                             <RouterLink
-                                :to="{ name: 'about' }"
+                                :to="{ name: 'tickets.index' }"
                                 class="nav-link"
                                 active-class="active"
                             >
-                                About
+                                Tickets
                             </RouterLink>
                         </li>
                         <li class="nav-item dropdown">
@@ -81,6 +81,7 @@ const logout = () => {
                                 <img
                                     :src="authStore.gravatar"
                                     class="img-fluid rounded-circle"
+                                    alt="Profile picture"
                                 />
                             </a>
                             <ul class="dropdown-menu">
