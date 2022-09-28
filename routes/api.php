@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\Auth\RegisteredUserController;
 use App\Http\Controllers\Api\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Api\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Api\Auth\NewPasswordController;
+use App\Http\Controllers\Api\TicketCategoryController;
 use App\Http\Controllers\Api\TicketController;
 use App\Http\Controllers\Api\TicketResponseController;
 use Illuminate\Http\Request;
@@ -30,6 +31,11 @@ Route::middleware('auth:sanctum')->group(function () {
                 ->name('logout');
 
     Route::apiResource('tickets', TicketController::class);
+
+    // Ticket Categories
+    Route::apiResource('ticket-categories', TicketCategoryController::class)
+        ->except(['show']);
+
     // Ticket Responses
     Route::post('tickets/{ticket}/responses', [TicketResponseController::class, 'store']);
     Route::put('tickets/{ticket}/responses/{ticketResponse}', [TicketResponseController::class, 'update'])

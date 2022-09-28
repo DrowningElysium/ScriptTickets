@@ -69,7 +69,7 @@ export const storeModuleFactory = <T extends { id: number }>(
             setters.setById(data);
         },
         update: async (id: number, item: Updatable<T>) => {
-            const { data } = await axios.post(`${moduleName}/${id}`, item);
+            const { data } = await axios.put(`${moduleName}/${id}`, item);
             if (!data) return;
             setters.setById(data);
         },

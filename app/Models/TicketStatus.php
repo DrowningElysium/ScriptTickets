@@ -34,6 +34,13 @@ class TicketStatus extends Model
     ];
 
     /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
      * The tickets of the status.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

@@ -31,13 +31,11 @@ export const useTicketStore = {
             if (!data) return;
             base.setters.setById(data);
         },
-        // createResponse (ticketId, content)
-        // editResponse (ticketId, id, content)
     },
     getters: {
         ...base.getters,
         getByCategoryId: (id: number) => {
-            return useTicketStore.getters.all.value.filter((ticket: Ticket) => {
+            return base.getters.all.value.filter((ticket: Ticket) => {
                 return ticket.categories.find(
                     (category: Category) => category.id === id
                 );

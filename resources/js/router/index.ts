@@ -70,6 +70,14 @@ const router = createRouter({
             // which is lazy-loaded when the route is visited.
             component: () => import("@/pages/tickets/ShowView.vue"),
         },
+        {
+            path: "/ticket-categories",
+            name: "ticket-categories.index",
+            // route level code-splitting
+            // this generates a separate chunk (About.[hash].js) for this route
+            // which is lazy-loaded when the route is visited.
+            component: () => import("@/pages/tickets/categories/IndexView.vue"),
+        },
     ],
 });
 

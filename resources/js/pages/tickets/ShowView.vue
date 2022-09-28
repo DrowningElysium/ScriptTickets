@@ -71,7 +71,7 @@ const onSubmit = async (values: any) => {
                                 id="content"
                                 name="content"
                                 class="form-control me-auto"
-                                :class="{ 'is-invalid': errors.email }"
+                                :class="{ 'is-invalid': errors.content }"
                                 placeholder="Leave a response here"
                                 aria-label="Leave a response here"
                             />

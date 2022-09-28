@@ -34,6 +34,13 @@ class TicketCategory extends Model
     ];
 
     /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
      * The tickets of the category.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany

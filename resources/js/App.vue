@@ -70,37 +70,19 @@ const logout = () => {
                                 Tickets
                             </RouterLink>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a
-                                class="nav-link dropdown-toggle"
-                                href="#"
-                                role="button"
-                                data-bs-toggle="dropdown"
-                                style="padding: 0 0.5rem"
+                        <li class="nav-item" v-if="authStore.user.is_admin">
+                            <RouterLink
+                                :to="{ name: 'ticket-categories.index' }"
+                                class="nav-link"
+                                active-class="active"
                             >
-                                <img
-                                    :src="authStore.gravatar"
-                                    class="img-fluid rounded-circle"
-                                    alt="Profile picture"
-                                />
+                                Ticket Categories
+                            </RouterLink>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" @click="logout">
+                                Log out
                             </a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <RouterLink
-                                        :to="{ name: 'home' }"
-                                        class="dropdown-item"
-                                        active-class="active"
-                                    >
-                                        My tickets
-                                    </RouterLink>
-                                </li>
-                                <li><hr class="dropdown-divider" /></li>
-                                <li>
-                                    <a class="dropdown-item" @click="logout">
-                                        Log out
-                                    </a>
-                                </li>
-                            </ul>
                         </li>
                     </ul>
                 </div>

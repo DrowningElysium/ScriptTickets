@@ -1,4 +1,5 @@
 import axios from "axios";
+import Swal from "sweetalert2";
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -22,9 +23,16 @@ const ax = axios.create({
 ax.get("/sanctum/csrf-cookie");
 
 // Add a default exception handling
-ax.interceptors.response.use(undefined, (error) => {
+ax.interceptors.response.use(undefined, async (error) => {
     if (axios.isAxiosError(error) && error.response) {
-        alert((error.response.data as ErrorResponse).message); // Will be replaced with a better solution.
+        await Swal.fire({
+            title:
+                error.response.status === 422
+                    ? "Validation error"
+                    : "Unexpected error",
+            text: String((error.response.data as ErrorResponse).message),
+            icon: "error",
+        });
 
         return Promise.reject(error);
     }

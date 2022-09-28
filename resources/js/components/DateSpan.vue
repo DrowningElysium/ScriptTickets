@@ -12,7 +12,7 @@ const dateFormatted = computed(() => date.value.format("YYYY-MM-DD h:m"));
 </script>
 
 <template>
-    <span data-bs-toggle="tooltip" :title="dateFormatted">
+    <span :title="dateFormatted">
         {{ timeAgo }}
     </span>
 </template>
