@@ -1,7 +1,25 @@
 @import "bootstrap";
 
+.wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.content-wrapper {
+    flex: 1 0 calc(100% - 56px);
+    background-color: hsl(0, 0%, 96%);
+    display: flex;
+    flex-flow: column nowrap;
+}
+
 .nav-link {
     & > img {
         height: 40px;
     }
+}
+
+.response-display-container {
+    display: flex;
+    justify-content: space-between;
 }

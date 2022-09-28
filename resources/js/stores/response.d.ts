@@ -6,9 +6,9 @@ export default interface Response {
     author_id: number;
     ticket_id: number;
     content: string;
-    created_at: Date;
-    updated_at: Date;
+    created_at: string;
+    updated_at: string;
 
-    author: User | null;
-    ticket: Ticket | null;
+    author: User;
+    ticket?: Ticket | null;
 }

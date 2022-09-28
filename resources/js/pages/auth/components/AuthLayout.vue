@@ -3,9 +3,9 @@ import SellCard from "./SellCard.vue";
 </script>
 
 <template>
-    <div class="h-100 px-4 py-5 px-md-5 text-center text-lg-start">
-        <div class="container h-100">
-            <div class="row gx-lg-5 align-items-center h-100">
+    <div class="align-self-center px-4 py-5 px-md-5 text-center text-lg-start mt-auto mb-auto">
+        <div class="container">
+            <div class="row gx-lg-5 align-items-center">
                 <SellCard />
 
                 <div class="col-lg-6 mb-5 mb-md-0">

@@ -1,5 +1,5 @@
 import type Category from "./category";
-// import type Response from "./response";
+import type Response from "./response";
 import type Status from "./status";
 import type User from "./user";
 
@@ -7,7 +7,6 @@ export default interface Ticket {
     id: number;
     assigned_to_id: number;
     author_id: number;
-    category_id: number;
     status_id: number;
     title: string;
     content: string;
@@ -19,6 +18,6 @@ export default interface Ticket {
     assigned_to: User | null;
     author: User;
     categories: Category[];
-    // responses: Response[]; // Not including this in the get all response.
+    responses?: Response[];
     status: Status;
 }

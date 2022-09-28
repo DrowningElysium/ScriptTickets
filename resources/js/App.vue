@@ -8,7 +8,7 @@ const logout = () => {
 </script>
 
 <template>
-    <div class="vh-100">
+    <div class="wrapper">
         <nav class="navbar navbar-dark navbar-expand-lg bg-dark">
             <div class="container">
                 <a class="navbar-brand" href="#">Script Tickets</a>
@@ -114,9 +114,4 @@ const logout = () => {
 </template>
 
 <style scoped>
-.content-wrapper {
-    height: calc(100% - 56px);
-    background-color: hsl(0, 0%, 96%);
-    overflow-y: scroll;
-}
 </style>

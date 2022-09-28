@@ -54,6 +54,26 @@ class Ticket extends Model
     ];
 
     /**
+     * Retrieve the child model for a bound value.
+     *
+     * @param  string  $childType
+     * @param  mixed  $value
+     * @param  string|null  $field
+     *
+     * @return \Illuminate\Database\Eloquent\Model|null
+     */
+    public function resolveChildRouteBinding($childType, $value, $field): \Illuminate\Database\Eloquent\Model|null
+    {
+        // As we use a custom relation name for the TicketResponse,
+        //      we need to rename the childType for correct resolving.
+        if ($childType === 'ticketResponse') {
+            $childType = 'response';
+        }
+
+        return parent::resolveChildRouteBinding($childType, $value, $field);
+    }
+
+    /**
      * The author of the ticket.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

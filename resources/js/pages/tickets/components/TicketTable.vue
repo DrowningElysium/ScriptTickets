@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type Ticket from "@/stores/ticket";
 import DateSpan from "@/components/DateSpan.vue";
-// import DateSpan from "@/components/DateSpan.vue";
+import CategoryDisplay from "@/pages/tickets/components/CategoryDisplay.vue";
 
 const props = defineProps<{ tickets: Ticket[] }>();
 </script>
@@ -22,16 +22,18 @@ const props = defineProps<{ tickets: Ticket[] }>();
         <tbody>
             <tr v-for="ticket in props.tickets" :key="ticket.id">
                 <td>{{ ticket.id }}</td>
-                <td>{{ ticket.title }}</td>
                 <td>
-                    <span
-                        class="badge bg-primary"
-                        style="margin-left: 0.1rem; margin-right: 0.1rem"
-                        v-for="category in ticket.categories"
-                        :key="category.id"
+                    <RouterLink
+                        :to="{
+                            name: 'tickets.show',
+                            params: { id: ticket.id },
+                        }"
                     >
-                        {{ category.title }}
-                    </span>
+                        {{ ticket.title }}
+                    </RouterLink>
+                </td>
+                <td>
+                    <CategoryDisplay :categories="ticket.categories" />
                 </td>
                 <td>{{ ticket.status.title }}</td>
                 <td>{{ ticket.author.full_name }}</td>
