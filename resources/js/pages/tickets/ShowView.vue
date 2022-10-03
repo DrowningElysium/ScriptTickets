@@ -6,7 +6,7 @@ import TicketDisplay from "./components/TicketDisplay.vue";
 import TicketResponse from "./components/TicketResponseDisplay.vue";
 import TicketStatusDisplay from "./components/TicketStatusDisplay.vue";
 import type Ticket from "@/stores/ticket";
-import { Form, Field } from "vee-validate";
+import { Form, Field, type FormActions } from "vee-validate";
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import * as Yup from "yup";
@@ -25,9 +25,10 @@ const schema = Yup.object().shape({
     content: Yup.string().required("Content is required"),
 });
 
-const onSubmit = async (values: any) => {
+const onSubmit = async (values: any, formAction: FormActions<any>) => {
     const { content } = values;
     useTicketStore.actions.createResponse(ticket.value, { content: content });
+    formAction.resetForm();
 };
 </script>
 
@@ -82,7 +83,7 @@ const onSubmit = async (values: any) => {
 
                             <div class="vr mb-auto" style="height: 37px"></div>
                             <button
-                                type="button"
+                                type="reset"
                                 class="btn btn-outline-danger mb-auto"
                             >
                                 Reset
