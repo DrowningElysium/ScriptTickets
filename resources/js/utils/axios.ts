@@ -25,17 +25,20 @@ ax.get("/sanctum/csrf-cookie");
 // Add a default exception handling
 ax.interceptors.response.use(undefined, async (error) => {
     if (axios.isAxiosError(error) && error.response) {
-        await Swal.fire({
-            title:
-                error.response.status === 422
-                    ? "Validation error"
-                    : "Unexpected error",
-            text: String((error.response.data as ErrorResponse).message),
-            icon: "error",
-        });
-
-        return Promise.reject(error);
+        // Don't want to show this error when checking if the user is logged in.
+        if (!error.request.responseURL.endsWith("/api/user")) {
+            await Swal.fire({
+                title:
+                    error.response.status === 422
+                        ? "Validation error"
+                        : "Unexpected error",
+                text: String((error.response.data as ErrorResponse).message),
+                icon: "error",
+            });
+        }
     }
+
+    return Promise.reject(error);
 });
 
 export default ax;

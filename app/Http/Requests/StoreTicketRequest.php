@@ -2,8 +2,13 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Ticket;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
+/**
+ * @method \App\Models\User user($guard = null)
+ */
 class StoreTicketRequest extends FormRequest
 {
     /**
@@ -11,9 +16,9 @@ class StoreTicketRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
-        return false;
+        return $this->user()->can('create', Ticket::class);
     }
 
     /**
@@ -21,10 +26,13 @@ class StoreTicketRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            //
+            'title' => ['required', 'string', 'min:1'],
+            'content' => ['required', 'string', 'min:1'],
+            'categories' => ['array', 'min:1'],
+            'categories.*' => ['integer', Rule::exists('ticket_categories', 'id')],
         ];
     }
 }

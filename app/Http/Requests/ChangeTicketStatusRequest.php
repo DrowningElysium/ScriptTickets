@@ -2,16 +2,15 @@
 
 namespace App\Http\Requests;
 
-use App\Models\TicketCategory;
+use App\Models\TicketStatus;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 /**
- * Laravel is weird, so for some reason the variable uses snake case here instead of camel case.
- * @property-read \App\Models\TicketCategory $ticket_category
+ * @property-read \App\Models\Ticket $ticket
  * @method \App\Models\User user($guard = null)
  */
-class UpdateTicketCategoryRequest extends FormRequest
+class ChangeTicketStatusRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -20,7 +19,7 @@ class UpdateTicketCategoryRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->user()->can('update', $this->ticket_category);
+        return $this->user()->can('updateStatus', [$this->ticket]);
     }
 
     /**
@@ -31,11 +30,10 @@ class UpdateTicketCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => [
+            'status_id' => [
                 'required',
-                'string',
-                Rule::unique(TicketCategory::class, 'title')
-                    ->ignoreModel($this->ticket_category),
+                'integer',
+                Rule::exists(TicketStatus::class, 'id'),
             ],
         ];
     }

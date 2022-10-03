@@ -7,6 +7,8 @@ use App\Http\Controllers\Api\Auth\NewPasswordController;
 use App\Http\Controllers\Api\TicketCategoryController;
 use App\Http\Controllers\Api\TicketController;
 use App\Http\Controllers\Api\TicketResponseController;
+use App\Http\Controllers\Api\TicketStatusController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,22 +28,27 @@ Route::post('login', [AuthenticatedSessionController::class, 'store']);
 Route::post('forgot-password', [PasswordResetLinkController::class, 'store']);
 Route::post('reset-password', [NewPasswordController::class, 'store']);
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
-                ->name('logout');
+Route::middleware('auth:sanctum')->group(static function () {
+    Route::get('user', [AuthenticatedSessionController::class, 'currentUser']);
+    Route::post('logout', [AuthenticatedSessionController::class, 'destroy']);
 
+    // Tickets
     Route::apiResource('tickets', TicketController::class);
+    Route::post('tickets/{ticket}/assign', [TicketController::class, 'assign']);
+    Route::post('tickets/{ticket}/status', [TicketController::class, 'changeStatus']);
 
     // Ticket Categories
     Route::apiResource('ticket-categories', TicketCategoryController::class)
         ->except(['show']);
 
+    // Ticket statuses
+    Route::get('ticket-statuses', [TicketStatusController::class, 'index']);
+
     // Ticket Responses
     Route::post('tickets/{ticket}/responses', [TicketResponseController::class, 'store']);
     Route::put('tickets/{ticket}/responses/{ticketResponse}', [TicketResponseController::class, 'update'])
         ->scopeBindings();
-});
 
-Route::middleware('auth:sanctum')->get('/user', static function (Request $request) {
-    return $request->user();
+    // Users
+    Route::get('users', [UserController::class, 'index']);
 });

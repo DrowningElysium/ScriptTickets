@@ -37,7 +37,7 @@ const onSubmit = async (values: any) => {
 
         <div class="card">
             <div class="card-body">
-                <div class="response-display-container" v-if="!modify">
+                <div class="d-flex justify-content-between" v-if="!modify">
                     <div class="response-content">
                         {{ props.response.content }}
                     </div>

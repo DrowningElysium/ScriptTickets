@@ -6,7 +6,8 @@ use App\Models\TicketResponse;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * @property \App\Models\Ticket $ticket
+ * @method \App\Models\User user($guard = null)
+ * @property-read \App\Models\Ticket $ticket
  */
 class StoreTicketResponseRequest extends FormRequest
 {

@@ -77,6 +77,9 @@ const router = createRouter({
             // this generates a separate chunk (About.[hash].js) for this route
             // which is lazy-loaded when the route is visited.
             component: () => import("@/pages/tickets/categories/IndexView.vue"),
+            meta: {
+                admin: true,
+            },
         },
     ],
 });
@@ -88,11 +91,16 @@ router.beforeEach(async (to) => {
 
     // redirect to login page if not logged in and trying to access a restricted page
     const authRequired = to.meta && !to.meta.public;
-    const authStore = useAuthStore();
+    const adminRequired = to.meta && to.meta.admin;
+    const auth = useAuthStore();
 
-    if (authRequired && !authStore.isAuthenticated) {
-        authStore.returnUrl = to.fullPath;
+    if (authRequired && !auth.isAuthenticated) {
+        auth.returnUrl = to.fullPath;
         return { name: "login" };
+    }
+
+    if (adminRequired && !auth.user?.is_admin) {
+        return { name: "tickets.index" };
     }
 });
 

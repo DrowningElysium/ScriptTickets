@@ -38,7 +38,7 @@ const destroy = async (category: Category) => {
 </script>
 
 <template>
-    <td class="category-table-title">
+    <td class="d-flex justify-content-start">
         <div class="actions hstack gap-1 me-2">
             <FontAwesomeIcon
                 v-if="!modify"
@@ -99,31 +99,3 @@ const destroy = async (category: Category) => {
         <div v-if="!modify">{{ props.category.title }}</div>
     </td>
 </template>
-
-<style lang="scss" scoped>
-.category-table-title {
-    display: flex;
-    justify-content: flex-start;
-
-    .actions {
-        & > * {
-            opacity: 0.2;
-            cursor: pointer;
-
-            .svg-inline--fa.fa-slash {
-                margin-left: -2px; // align the slash better
-            }
-
-            &.disabled {
-                cursor: not-allowed;
-            }
-
-            &:not(.disabled) {
-                &:hover {
-                    opacity: 1;
-                }
-            }
-        }
-    }
-}
-</style>

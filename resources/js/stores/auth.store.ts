@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 import type User from "./user";
 import Axios from "@/utils/axios";
 import Router from "@/router";
@@ -37,7 +38,7 @@ export const useAuthStore = defineStore("auth", () => {
                 password: password,
             });
 
-            user.value = response.data.user;
+            user.value = response.data;
 
             await Router.push({ name: "home" });
         } catch (error) {
@@ -57,7 +58,19 @@ export const useAuthStore = defineStore("auth", () => {
                 remember_me: remember,
             });
 
-            user.value = response.data.user;
+            user.value = response.data;
+
+            await Router.push(returnUrl.value || { name: "home" });
+        } catch (error) {
+            //
+        }
+    };
+
+    const checkLogin = async () => {
+        try {
+            const response = await Axios.get("user");
+
+            user.value = response.data;
 
             await Router.push(returnUrl.value || { name: "home" });
         } catch (error) {
@@ -91,7 +104,11 @@ export const useAuthStore = defineStore("auth", () => {
                 password: password,
             });
 
-            alert(response.data.status);
+            Swal.fire({
+                title: "Success",
+                text: String(response.data.message),
+                icon: "success",
+            });
 
             await Router.push({ name: "login" });
         } catch (error) {
@@ -113,6 +130,7 @@ export const useAuthStore = defineStore("auth", () => {
         gravatar,
         register,
         login,
+        checkLogin,
         sendReset,
         resetPassword,
         logout,

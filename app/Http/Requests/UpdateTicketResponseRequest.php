@@ -5,8 +5,9 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * @property \App\Models\Ticket         $ticket
- * @property \App\Models\TicketResponse $ticketResponse
+ * @property-read \App\Models\Ticket         $ticket
+ * @property-read \App\Models\TicketResponse $ticketResponse
+ * @method \App\Models\User user($guard = null)
  */
 class UpdateTicketResponseRequest extends FormRequest
 {

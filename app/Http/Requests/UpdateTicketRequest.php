@@ -3,7 +3,12 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
+/**
+ * @property-read \App\Models\Ticket $ticket
+ * @method \App\Models\User user($guard = null)
+ */
 class UpdateTicketRequest extends FormRequest
 {
     /**
@@ -11,9 +16,9 @@ class UpdateTicketRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
-        return false;
+        return $this->user()->can('update', [$this->ticket]);
     }
 
     /**
@@ -21,10 +26,13 @@ class UpdateTicketRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            //
+            'title' => ['required', 'string', 'min:1'],
+            'content' => ['required', 'string', 'min:1'],
+            'categories' => ['array', 'min:1'],
+            'categories.*' => ['integer', Rule::exists('ticket_categories', 'id')],
         ];
     }
 }

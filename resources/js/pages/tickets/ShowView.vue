@@ -1,14 +1,16 @@
 <script setup lang="ts">
+import DateSpan from "@/components/DateSpan.vue";
+import LoadingSpinner from "@/components/LoadingSpinner.vue";
+import TicketAssignDisplay from "@/pages/tickets/components/TicketAssignDisplay.vue";
+import TicketDisplay from "./components/TicketDisplay.vue";
+import TicketResponse from "./components/TicketResponseDisplay.vue";
+import TicketStatusDisplay from "./components/TicketStatusDisplay.vue";
 import type Ticket from "@/stores/ticket";
 import { Form, Field } from "vee-validate";
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import * as Yup from "yup";
 import { useTicketStore } from "@/stores";
-import LoadingSpinner from "@/components/LoadingSpinner.vue";
-import CategoryDisplay from "@/pages/tickets/components/CategoryDisplay.vue";
-import DateSpan from "@/components/DateSpan.vue";
-import TicketResponse from "@/pages/tickets/components/TicketResponse.vue";
 
 const route = useRoute();
 
@@ -35,17 +37,7 @@ const onSubmit = async (values: any) => {
         <div class="container h-100" v-if="ticket">
             <div class="row">
                 <div class="col-9">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="card-title">
-                                <h1>Ticket: {{ ticket.title }}</h1>
-                            </div>
-
-                            <div>
-                                {{ ticket.content }}
-                            </div>
-                        </div>
-                    </div>
+                    <TicketDisplay :ticket="ticket" />
 
                     <div class="mt-4" v-if="ticket.responses">
                         <div class="display-6">Responses</div>
@@ -103,17 +95,8 @@ const onSubmit = async (values: any) => {
                     <div class="card">
                         <div class="card-body">
                             <dl>
-                                <dt>Categories</dt>
-                                <dd class="text-center">
-                                    <CategoryDisplay
-                                        :categories="ticket.categories"
-                                    />
-                                </dd>
-
                                 <dt>Status</dt>
-                                <dd class="text-center">
-                                    {{ ticket.status.title }}
-                                </dd>
+                                <TicketStatusDisplay :ticket="ticket" />
 
                                 <dt>Submitted at</dt>
                                 <dd class="text-center">
@@ -131,12 +114,7 @@ const onSubmit = async (values: any) => {
                                 </dd>
 
                                 <dt>Assigned to</dt>
-                                <dd class="text-center">
-                                    {{
-                                        ticket.assigned_to?.full_name ||
-                                        "Unassigned"
-                                    }}
-                                </dd>
+                                <TicketAssignDisplay :ticket="ticket" />
                             </dl>
                         </div>
                     </div>

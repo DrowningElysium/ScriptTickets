@@ -21,9 +21,9 @@ const schema = Yup.object().shape({
 });
 
 const onSubmit = async (values: any) => {
-    const authStore = useAuthStore();
+    const auth = useAuthStore();
     const { email, password } = values;
-    await authStore.resetPassword(
+    await auth.resetPassword(
         $route.params.token as string,
         email,
         password

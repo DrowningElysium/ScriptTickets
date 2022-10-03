@@ -7,7 +7,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Laravel is weird, so for some reason the variable uses snake case here instead of camel case.
- * @property \App\Models\TicketCategory $ticket_category
+ * @property-read \App\Models\TicketCategory $ticket_category
+ * @method \App\Models\User user($guard = null)
  */
 class DeleteTicketCategoryRequest extends FormRequest
 {

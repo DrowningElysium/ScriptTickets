@@ -20,9 +20,9 @@ const schema = Yup.object().shape({
 });
 
 const onSubmit = async (values: any) => {
-    const authStore = useAuthStore();
+    const auth = useAuthStore();
     const { first_name, last_name, email, telephone_number, password } = values;
-    await authStore.register(
+    await auth.register(
         first_name,
         last_name,
         email,

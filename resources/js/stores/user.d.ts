@@ -6,6 +6,6 @@ export default interface User {
     email: string;
     telephone_number: string;
     is_admin: boolean;
-    created_at: string; // Need to change type?
-    updated_at: string; // Need to change type?
+    created_at: string;
+    updated_at: string;
 }

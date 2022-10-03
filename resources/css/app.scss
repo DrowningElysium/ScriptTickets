@@ -19,7 +19,23 @@
     }
 }
 
-.response-display-container {
-    display: flex;
-    justify-content: space-between;
+.actions {
+    & > * {
+        opacity: 0.2;
+        cursor: pointer;
+
+        .svg-inline--fa.fa-slash {
+            margin-left: -2px; // align the slash better
+        }
+
+        &.disabled {
+            cursor: not-allowed;
+        }
+
+        &:not(.disabled) {
+            &:hover {
+                opacity: 1;
+            }
+        }
+    }
 }

@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { Form, Field } from "vee-validate";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useAuthStore } from "@/stores";
 import * as Yup from "yup";
 import AuthLayout from "./components/AuthLayout.vue";
 
 // Needed to make the checkbox prechecked.
 const rememberMe = ref(true);
+const auth = useAuthStore();
 
 const schema = Yup.object().shape({
     email: Yup.string()
@@ -16,9 +17,8 @@ const schema = Yup.object().shape({
 });
 
 const onSubmit = async (values: any) => {
-    const authStore = useAuthStore();
     const { email, password, remember_me } = values;
-    await authStore.login(email, password, remember_me);
+    await auth.login(email, password, remember_me);
 };
 </script>
 

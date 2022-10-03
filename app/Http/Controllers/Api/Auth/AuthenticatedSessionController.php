@@ -12,27 +12,39 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      *
-     * @param  \App\Http\Requests\Auth\LoginRequest  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @param \App\Http\Requests\Auth\LoginRequest $request
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(LoginRequest $request)
+    public function store(LoginRequest $request): \Illuminate\Http\JsonResponse
     {
         $request->authenticate();
 
         $request->session()->regenerate();
 
-        return response()->json([
-            'user' => $request->user(),
-        ]);
+        return response()->json($request->user());
     }
 
     /**
      * Destroy an authenticated session.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Request $request)
+    public function currentUser(Request $request): \Illuminate\Http\JsonResponse
+    {
+        return response()->json($request->user());
+    }
+
+    /**
+     * Destroy an authenticated session.
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy(Request $request): \Illuminate\Http\JsonResponse
     {
         Auth::guard('web')->logout();
 

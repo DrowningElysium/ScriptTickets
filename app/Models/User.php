@@ -3,7 +3,10 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Database\Factories\UserFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\hasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
@@ -12,46 +15,48 @@ use Laravel\Sanctum\HasApiTokens;
 /**
  * App\Models\User
  *
- * @property int $id
- * @property string $first_name
- * @property string $last_name
- * @property string $email
- * @property string $telephone_number
- * @property \Illuminate\Support\Carbon|null $email_verified_at
- * @property string $password
- * @property int $is_admin
- * @property string|null $remember_token
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read string $full_name
+ * @property int                                                                                                            $id
+ * @property string                                                                                                         $first_name
+ * @property string                                                                                                         $last_name
+ * @property string                                                                                                         $email
+ * @property string                                                                                                         $telephone_number
+ * @property \Illuminate\Support\Carbon|null                                                                                $email_verified_at
+ * @property string                                                                                                         $password
+ * @property int                                                                                                            $is_admin
+ * @property string|null                                                                                                    $remember_token
+ * @property \Illuminate\Support\Carbon|null                                                                                $created_at
+ * @property \Illuminate\Support\Carbon|null                                                                                $updated_at
+ * @property-read string                                                                                                    $full_name
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
- * @property-read int|null $notifications_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\TicketResponse[] $ticketResponses
- * @property-read int|null $ticket_responses_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Ticket[] $tickets
- * @property-read int|null $tickets_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
- * @property-read int|null $tokens_count
- * @method static \Database\Factories\UserFactory factory(...$parameters)
- * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|User query()
- * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereFirstName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereIsAdmin($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereLastName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereTelephoneNumber($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
+ * @property-read int|null                                                                                                  $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\TicketResponse[]                                     $ticketResponses
+ * @property-read int|null                                                                                                  $ticket_responses_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Ticket[]                                             $tickets
+ * @property-read int|null                                                                                                  $tickets_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[]                           $tokens
+ * @property-read int|null                                                                                                  $tokens_count
+ * @method static UserFactory factory(...$parameters)
+ * @method static Builder|User newModelQuery()
+ * @method static Builder|User newQuery()
+ * @method static Builder|User query()
+ * @method static Builder|User whereCreatedAt($value)
+ * @method static Builder|User whereEmail($value)
+ * @method static Builder|User whereEmailVerifiedAt($value)
+ * @method static Builder|User whereFirstName($value)
+ * @method static Builder|User whereId($value)
+ * @method static Builder|User whereIsAdmin($value)
+ * @method static Builder|User whereLastName($value)
+ * @method static Builder|User wherePassword($value)
+ * @method static Builder|User whereRememberToken($value)
+ * @method static Builder|User whereTelephoneNumber($value)
+ * @method static Builder|User whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens;
+    use HasFactory;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -83,6 +88,7 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
+        'is_admin' => 'boolean',
         'email_verified_at' => 'datetime',
     ];
 
@@ -102,7 +108,7 @@ class User extends Authenticatable
      */
     public function getFullNameAttribute(): string
     {
-        return $this->first_name.' '.$this->last_name;
+        return $this->first_name . ' ' . $this->last_name;
     }
 
     /**
@@ -120,7 +126,7 @@ class User extends Authenticatable
      *
      * @return \Illuminate\Database\Eloquent\Relations\hasMany
      */
-    public function ownedTickets(): \Illuminate\Database\Eloquent\Relations\hasMany
+    public function ownedTickets(): hasMany
     {
         return $this->hasMany(Ticket::class, 'author_id');
     }
@@ -130,7 +136,7 @@ class User extends Authenticatable
      *
      * @return \Illuminate\Database\Eloquent\Relations\hasMany
      */
-    public function assignedTickets(): \Illuminate\Database\Eloquent\Relations\hasMany
+    public function assignedTickets(): hasMany
     {
         return $this->hasMany(Ticket::class, 'assigned_to_id');
     }
@@ -140,7 +146,7 @@ class User extends Authenticatable
      *
      * @return \Illuminate\Database\Eloquent\Relations\hasMany
      */
-    public function ticketResponses(): \Illuminate\Database\Eloquent\Relations\hasMany
+    public function ticketResponses(): hasMany
     {
         return $this->hasMany(TicketResponse::class, 'author_id');
     }

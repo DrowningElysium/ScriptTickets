@@ -1,9 +1,14 @@
 <script setup lang="ts">
+import { onMounted } from "vue";
 import { useAuthStore } from "./stores";
 
-const authStore = useAuthStore();
+const auth = useAuthStore();
+onMounted(() => {
+    auth.checkLogin();
+});
+
 const logout = () => {
-    authStore.logout();
+    auth.logout();
 };
 </script>
 
@@ -26,7 +31,7 @@ const logout = () => {
                 <div class="collapse navbar-collapse" id="navbar">
                     <ul
                         class="navbar-nav ms-auto mb-2 mb-lg-0"
-                        v-if="!authStore.isAuthenticated"
+                        v-if="!auth.isAuthenticated"
                     >
                         <li class="nav-item">
                             <RouterLink
@@ -50,7 +55,7 @@ const logout = () => {
 
                     <ul
                         class="navbar-nav ms-auto mb-2 mb-lg-0"
-                        v-if="authStore.isAuthenticated"
+                        v-if="auth.isAuthenticated"
                     >
                         <li class="nav-item">
                             <RouterLink
@@ -70,7 +75,7 @@ const logout = () => {
                                 Tickets
                             </RouterLink>
                         </li>
-                        <li class="nav-item" v-if="authStore.user.is_admin">
+                        <li class="nav-item" v-if="auth.user.is_admin">
                             <RouterLink
                                 :to="{ name: 'ticket-categories.index' }"
                                 class="nav-link"
@@ -80,7 +85,7 @@ const logout = () => {
                             </RouterLink>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" @click="logout">
+                            <a class="nav-link" href="#" @click.prevent="logout">
                                 Log out
                             </a>
                         </li>
@@ -94,6 +99,3 @@ const logout = () => {
         </div>
     </div>
 </template>
-
-<style scoped>
-</style>
