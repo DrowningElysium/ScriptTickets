@@ -44,13 +44,6 @@ class TicketResponse extends Model
     ];
 
     /**
-     * The relationships that should be touched on save.
-     *
-     * @var array
-     */
-    protected $touches = [];
-
-    /**
      * The author of the ticket response.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

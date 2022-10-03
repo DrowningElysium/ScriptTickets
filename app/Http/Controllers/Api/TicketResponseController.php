@@ -38,6 +38,8 @@ class TicketResponseController extends Controller
                 'content' => $request->input('content'),
             ]);
 
+        // Touch the ticket, so it has a new timestamp
+        $ticket->touch();
         $ticket->load(['assignedTo', 'author', 'categories', 'responses.author', 'status']);
 
         return response()->json($ticket);
