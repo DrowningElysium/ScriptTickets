@@ -71,6 +71,14 @@ const router = createRouter({
             component: () => import("@/pages/tickets/ShowView.vue"),
         },
         {
+            path: "/tickets/create",
+            name: "tickets.create",
+            // route level code-splitting
+            // this generates a separate chunk (About.[hash].js) for this route
+            // which is lazy-loaded when the route is visited.
+            component: () => import("@/pages/tickets/CreateView.vue"),
+        },
+        {
             path: "/ticket-categories",
             name: "ticket-categories.index",
             // route level code-splitting

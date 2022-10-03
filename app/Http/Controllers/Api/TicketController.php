@@ -37,7 +37,7 @@ class TicketController extends Controller
         /** @var TicketStatus $defaultStatus */
         $defaultStatus = TicketStatus::where('title', 'New')->first();
 
-        $ticket = $request->user()->tickets()->create([
+        $ticket = $request->user()->ownedTickets()->create([
             'status_id' => $defaultStatus->id,
             'title' => $request->input('title'),
             'content' => $request->input('content'),

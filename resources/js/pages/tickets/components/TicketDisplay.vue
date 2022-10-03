@@ -16,8 +16,8 @@ const categories = ref<Ticket>(useTicketCategoryStore.getters.all);
 const modify = ref(false);
 
 const schema = Yup.object().shape({
-    title: Yup.string().required("Content is required"),
-    categories: Yup.array().required("Content is required"),
+    title: Yup.string().required("Title is required"),
+    categories: Yup.array().required("Categories is required"),
     content: Yup.string().required("Content is required"),
 });
 
@@ -85,7 +85,7 @@ const onSubmit = async (values: any) => {
                         />
 
                         <div class="invalid-feedback">
-                            {{ errors.email }}
+                            {{ errors.title }}
                         </div>
                     </div>
 
@@ -100,7 +100,7 @@ const onSubmit = async (values: any) => {
                             id="categories"
                             name="categories"
                             class="form-control"
-                            :class="{ 'is-invalid': errors.title }"
+                            :class="{ 'is-invalid': errors.categories }"
                             v-slot="{ value }"
                         >
                             <option
@@ -119,7 +119,7 @@ const onSubmit = async (values: any) => {
                         </Field>
 
                         <div class="invalid-feedback">
-                            {{ errors.email }}
+                            {{ errors.categories }}
                         </div>
                     </div>
 
@@ -136,7 +136,7 @@ const onSubmit = async (values: any) => {
                         />
 
                         <div class="invalid-feedback">
-                            {{ errors.email }}
+                            {{ errors.content }}
                         </div>
                     </div>
 
