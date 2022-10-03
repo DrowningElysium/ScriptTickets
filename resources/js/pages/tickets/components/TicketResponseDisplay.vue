@@ -63,30 +63,34 @@ const onSubmit = async (values: any) => {
                     :validation-schema="schema"
                     v-slot="{ errors, isSubmitting }"
                 >
-                    <Field
-                        as="textarea"
-                        id="content"
-                        name="content"
-                        class="form-control me-auto"
-                        :class="{ 'is-invalid': errors.content }"
-                        placeholder="Leave a response here"
-                        aria-label="Leave a response here"
-                        :value="props.response.content"
-                    />
+                    <div class="form-outline mb-2">
+                        <Field
+                            as="textarea"
+                            id="content"
+                            name="content"
+                            class="form-control me-auto"
+                            :class="{ 'is-invalid': errors.content }"
+                            placeholder="Leave a response here"
+                            aria-label="Leave a response here"
+                            :value="props.response.content"
+                        />
+                    </div>
 
-                    <button
-                        type="submit"
-                        class="btn btn-secondary"
-                        :disabled="isSubmitting"
-                    >
-                        <span
-                            v-show="isSubmitting"
-                            class="spinner-border spinner-border-sm ms-auto"
-                        ></span>
-                        Submit
-                    </button>
+                    <div class="d-flex justify-content-end">
+                        <button
+                            type="submit"
+                            class="btn btn-secondary"
+                            :disabled="isSubmitting"
+                        >
+                            <span
+                                v-show="isSubmitting"
+                                class="spinner-border spinner-border-sm ms-auto"
+                            ></span>
+                            Submit
+                        </button>
+                    </div>
                 </Form>
-            </div>
+        </div>
         </div>
     </div>
 </template>
