@@ -4,10 +4,12 @@ namespace App\Http\Requests;
 
 use App\Models\TicketCategory;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 /**
  * Laravel is weird, so for some reason the variable uses snake case here instead of camel case.
  * @property \App\Models\TicketCategory $ticket_category
+ * @method \App\Models\User user($guard = null)
  */
 class UpdateTicketCategoryRequest extends FormRequest
 {
@@ -29,7 +31,12 @@ class UpdateTicketCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required', 'string', 'unique:'.TicketCategory::class],
+            'title' => [
+                'required',
+                'string',
+                Rule::unique(TicketCategory::class, 'title')
+                    ->ignoreModel($this->ticket_category),
+            ],
         ];
     }
 }

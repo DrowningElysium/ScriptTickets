@@ -4,9 +4,10 @@ namespace App\Http\Requests;
 
 use App\Models\TicketCategory;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 /**
- * @property \App\Models\TicketResponse $ticketCategory
+ * @method \App\Models\User user($guard = null)
  */
 class StoreTicketCategoryRequest extends FormRequest
 {
@@ -28,7 +29,11 @@ class StoreTicketCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required', 'string', 'unique:'.TicketCategory::class],
+            'title' => [
+                'required',
+                'string',
+                Rule::unique(TicketCategory::class, 'title'),
+            ],
         ];
     }
 }
