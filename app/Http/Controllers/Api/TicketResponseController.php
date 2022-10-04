@@ -7,6 +7,7 @@ use App\Http\Requests\StoreTicketResponseRequest;
 use App\Http\Requests\UpdateTicketResponseRequest;
 use App\Models\Ticket;
 use App\Models\TicketResponse;
+use App\Notifications\NewTicketResponseNotification;
 
 class TicketResponseController extends Controller
 {
@@ -32,7 +33,7 @@ class TicketResponseController extends Controller
      */
     public function store(StoreTicketResponseRequest $request, Ticket $ticket): \Illuminate\Http\JsonResponse
     {
-        $ticket->responses()
+        $response = $ticket->responses()
             ->create([
                 'author_id' => $request->user()->id,
                 'content' => $request->input('content'),
@@ -41,6 +42,9 @@ class TicketResponseController extends Controller
         // Touch the ticket, so it has a new timestamp
         $ticket->touch();
         $ticket->load(['assignedTo', 'author', 'categories', 'responses.author', 'status']);
+
+        // Let the original author know.
+        $ticket->author->notify(new NewTicketResponseNotification($ticket, $response));
 
         return response()->json($ticket);
     }
